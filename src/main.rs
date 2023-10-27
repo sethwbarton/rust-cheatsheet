@@ -14,17 +14,17 @@ You typically run Rust projects with "cargo run" but you could also build and th
 execute with the rustc compiler directly with "rustc main.rs" and then "./main".
  */
 
+use crate::reading_files::write_a_text_file;
+use some_module::some_function;
+use some_module::some_sub_module::some_sub_fn;
+use some_module::some_sub_module::sub_sub::SomeType;
 use std::io;
-use crate::some_module::some_function;
-use crate::some_module::some_sub_module::some_sub_fn;
-use crate::some_module::some_sub_module::sub_sub::SomeType;
 
-// Modules must be declared in the root file?
+pub mod reading_files;
 pub mod some_module;
 
 // All rust programs start with a main function. Unless it's a library.
 fn main() {
-
     some_function();
     some_sub_fn();
     let a_struct = SomeType {};
@@ -88,37 +88,25 @@ fn main() {
     mutates(gets_mutated);
     println!("{:?}", gets_mutated); // The values are changed!
 
-
     // LOOPS!
     let mut loops = 0;
     loop {
         if loops == 3 {
             break;
         }
-       loops += 1;
+        loops += 1;
     }
 
     while loops < 4 {
         loops += 1;
     }
 
-    let some_array = [1,2,3,4,5,6,7,8,9,10];
+    let some_array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     for num in some_array {
         println!("{}", num)
     }
 
-    // Reading input from Stdin
-    println!("Enter anything:");
-    let mut input: String = String::new();
-    match io::stdin().read_line(&mut input) { // Readline returns an enum we can match on
-        // We can bind values for handling enums variants with values.
-        // Here inputSize is bound  for use in our handling function.
-        Ok(inputSize) => {println!("You entered: {} bytes", inputSize);}
-        Err(_) => {} // Eat the error
-    }
-
-
-
+    write_a_text_file();
 }
 
 // This function "borrows" the parameter passed in.
@@ -182,7 +170,7 @@ enum Coin {
     Penny,
     Nickel,
     Dime,
-    Quarter
+    Quarter,
 }
 
 fn value_in_cents(coin: Coin) -> u8 {
@@ -192,7 +180,6 @@ fn value_in_cents(coin: Coin) -> u8 {
         Coin::Penny => 1,
         Coin::Nickel => 5,
         Coin::Dime => 10,
-        Coin::Quarter => 25
+        Coin::Quarter => 25,
     }
 }
-
