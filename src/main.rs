@@ -9,10 +9,26 @@ It comes with a package manager: cargo.
 Cargo is similar to NPM, and very easy to use. It's also standardized.
 All the available packages are on the cargo website.
 The built-in package manager is a huge win over C and C++ in my book.
+
+You typically run Rust projects with "cargo run" but you could also build and then
+execute with the rustc compiler directly with "rustc main.rs" and then "./main".
  */
+
+use std::io;
+use crate::some_module::some_function;
+use crate::some_module::some_sub_module::some_sub_fn;
+use crate::some_module::some_sub_module::sub_sub::SomeType;
+
+// Modules must be declared in the root file?
+pub mod some_module;
 
 // All rust programs start with a main function. Unless it's a library.
 fn main() {
+
+    some_function();
+    some_sub_fn();
+    let a_struct = SomeType {};
+
     // Some primitive data type examples
     let my_age: u8 = 28; // There are also 64-bit and 8-bit and 128-bit etc...
     let walt_disney_age: i128 = 122; // Rust convention is to use snake_case.
@@ -34,6 +50,7 @@ fn main() {
     // Associated struct functions are like static methods in Java.
     let mut aSquare = Rectangle::square(15);
     // ... and enum variants
+    // ... and modules and sub modules. The :: syntax kinda gets used everywhere.
     let myIpKind = IpAddrKind::V4;
 
     // This is how you print
@@ -44,6 +61,7 @@ fn main() {
     println!("{:?}", my_rectangle);
 
     // A bit about ownership and borrowing...
+    // This system is how Rust prevents us from writing memory errors
     let gets_owned: Rectangle = Rectangle::square(10);
     let gets_borrowed: &Rectangle = &Rectangle {
         width: 5,
@@ -68,12 +86,43 @@ fn main() {
     println!("{:?}", gets_borrowed); // So, it's still safe to use that value afterwards.
 
     mutates(gets_mutated);
-    println!("{:?}", gets_borrowed); // Prints width: 6
+    println!("{:?}", gets_mutated); // The values are changed!
+
+
+    // LOOPS!
+    let mut loops = 0;
+    loop {
+        if loops == 3 {
+            break;
+        }
+       loops += 1;
+    }
+
+    while loops < 4 {
+        loops += 1;
+    }
+
+    let some_array = [1,2,3,4,5,6,7,8,9,10];
+    for num in some_array {
+        println!("{}", num)
+    }
+
+    // Reading input from Stdin
+    println!("Enter anything:");
+    let mut input: String = String::new();
+    match io::stdin().read_line(&mut input) { // Readline returns an enum we can match on
+        // We can bind values for handling enums variants with values.
+        // Here inputSize is bound  for use in our handling function.
+        Ok(inputSize) => {println!("You entered: {} bytes", inputSize);}
+        Err(_) => {} // Eat the error
+    }
+
+
+
 }
 
-// Define functions like so.
 // This function "borrows" the parameter passed in.
-// It's not allowed to modify what gets passed but takes the parameter as a reference in memory.
+// It's not allowed to modify what gets passed but takes the parameter as a reference.
 // The caller can continue to use the parameter after calling this function.
 fn borrows(rect: &Rectangle) -> u32 {
     rect.width // The last expression in a block is an implicit return
@@ -128,3 +177,22 @@ enum IpAddrKind {
     V4,
     V6,
 }
+
+enum Coin {
+    Penny,
+    Nickel,
+    Dime,
+    Quarter
+}
+
+fn value_in_cents(coin: Coin) -> u8 {
+    // Match statements ensure that you hit all possible enum values before compiling.
+    // These get used everywhere, because lots of stuff in the std lib returns enums.
+    match coin {
+        Coin::Penny => 1,
+        Coin::Nickel => 5,
+        Coin::Dime => 10,
+        Coin::Quarter => 25
+    }
+}
+
