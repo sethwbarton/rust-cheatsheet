@@ -14,18 +14,11 @@ You typically run Rust projects with "cargo run" but you could also build and th
 execute with the rustc compiler directly with "rustc main.rs" and then "./main".
  */
 
-use crate::reading_files::write_a_text_file;
-use crate::using_injection::injects;
-use some_module::some_function;
-use some_module::some_sub_module::some_sub_fn;
-use some_module::some_sub_module::sub_sub::SomeType;
-use std::io;
-
-pub mod adding;
-pub mod reading_files;
-pub mod some_module;
-pub mod tests;
-pub mod using_injection;
+use rust_cheatsheet::reading_files::write_a_text_file;
+use rust_cheatsheet::some_module::some_function;
+use rust_cheatsheet::some_module::some_sub_module::some_sub_fn;
+use rust_cheatsheet::some_module::some_sub_module::sub_sub::SomeType;
+use rust_cheatsheet::using_injection::injects;
 
 // All rust programs start with a main function. Unless it's a library.
 fn main() {
