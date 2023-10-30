@@ -21,8 +21,10 @@ use some_module::some_sub_module::some_sub_fn;
 use some_module::some_sub_module::sub_sub::SomeType;
 use std::io;
 
+pub mod adding;
 pub mod reading_files;
 pub mod some_module;
+pub mod tests;
 pub mod using_injection;
 
 // All rust programs start with a main function. Unless it's a library.
