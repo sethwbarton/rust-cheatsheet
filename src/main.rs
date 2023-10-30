@@ -15,6 +15,7 @@ execute with the rustc compiler directly with "rustc main.rs" and then "./main".
  */
 
 use crate::reading_files::write_a_text_file;
+use crate::using_injection::injects;
 use some_module::some_function;
 use some_module::some_sub_module::some_sub_fn;
 use some_module::some_sub_module::sub_sub::SomeType;
@@ -22,6 +23,7 @@ use std::io;
 
 pub mod reading_files;
 pub mod some_module;
+pub mod using_injection;
 
 // All rust programs start with a main function. Unless it's a library.
 fn main() {
@@ -107,6 +109,10 @@ fn main() {
     }
 
     write_a_text_file();
+
+    // Check out this funciton for an example of how to do dependency injection
+    // with dynamic dispatch.
+    injects();
 }
 
 // This function "borrows" the parameter passed in.
